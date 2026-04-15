@@ -1,0 +1,1404 @@
+
+) Set up a sample project using manual configuration for an Ubuntu EC2 instance,
+incorporating the following steps:
+A. Download and install the apache2 service.
+B. Download the sample project files.
+C. Transfer all files and directories to the designated location.
+Ensure that upon completion, the sample project is operational, accessible through
+the private IP address via a web browser.
+
+Here’s a clear, exam-ready step-by-step solution for setting up a sample project on an Ubuntu EC2 instance with Apache:
+
+🚀 Manual Setup of Sample Project on Ubuntu EC2
+✅ Step 1: Launch & Connect to EC2 Instance
+Launch an Ubuntu EC2 instance from AWS
+
+Connect via SSH:
+
+ssh -i your-key.pem ubuntu@<your-ec2-public-ip>
+✅ Step 2: Update Packages
+Always update system first:
+
+sudo apt update
+sudo apt upgrade -y
+✅ Step 3: Install Apache2 (Requirement A)
+sudo apt install apache2 -y
+Start and enable Apache:
+
+sudo systemctl start apache2
+sudo systemctl enable apache2
+Check status:
+
+sudo systemctl status apache2
+✅ Step 4: Allow HTTP Traffic (Important)
+sudo ufw allow 'Apache'
+Also ensure port 80 is open in EC2 Security Group.
+
+✅ Step 5: Download Sample Project Files (Requirement B)
+You can download using git or wget.
+
+Option 1: Using Git
+sudo apt install git -y
+git clone https://github.com/sample-project-repo.git
+Option 2: Using wget
+wget https://example.com/sample-project.zip
+unzip sample-project.zip
+✅ Step 6: Transfer Files to Apache Directory (Requirement C)
+Apache default directory:
+
+/var/www/html
+Move project files:
+
+sudo cp -r sample-project/* /var/www/html/
+✅ Step 7: Set Proper Permissions
+sudo chown -R www-data:www-data /var/www/html
+sudo chmod -R 755 /var/www/html
+✅ Step 8: Restart Apache
+sudo systemctl restart apache2
+✅ Step 9: Access Project via Private IP
+Find private IP:
+
+hostname -I
+Open browser inside same network (or VPC):
+
+http://<private-ip>
+🎯 Expected Result
+Apache server is running
+
+Sample project files are hosted
+
+Website is accessible via private IP address
+
+⚠️ Common Mistakes (Exam Tips)
+Forgetting to open port 80
+
+Wrong file permissions
+
+Files not copied to /var/www/html
+
+Apache not restarted
+
+If you want, I can convert this into a perfect 10-mark DevOps exam answer format (with diagram + explanation) 👍
+
+
+give my just anwser after everything is installed
+
+After completing all installation and configuration steps, the sample project is successfully deployed on the Ubuntu EC2 instance. The Apache2 web server is running, and all project files are placed in the /var/www/html directory with proper permissions.
+
+The application is operational and can be accessed through a web browser using the instance’s private IP address (e.g., http://<private-ip>). Upon accessing this URL, the sample project’s homepage is displayed, confirming that the setup is working correctly.
+
+
+Write a Terraform configuration file to create an AWS EC2 instance in the "ap-south1" region. The instance should use the following specifications:
+ AMI ID: ami-00bb6a80f (Ubuntu image lts)
+ Instance Type: t2.micro
+ The instance should be tagged with Name = ExampleAppServerInstance.
+ Ensure the correct AWS provider and version constraints are configured
+
+Here’s a clean Terraform configuration file that meets all the given requirements:
+
+✅ Terraform Configuration (main.tf)
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = "ap-south-1"
+}
+
+resource "aws_instance" "example_server" {
+  ami           = "ami-00bb6a80f"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "ExampleAppServerInstance"
+  }
+}
+✅ Steps to Run
+terraform init
+terraform plan
+terraform apply
+🎯 Outcome
+EC2 instance created in ap-south-1 (Mumbai region)
+
+Uses Ubuntu LTS AMI
+
+Instance type: t2.micro
+
+Tagged as ExampleAppServerInstance
+
+If you want, I can also give a diagram or viva questions based on this 👍
+
+
+give detailed step
+
+Here’s a clear, detailed step-by-step process to create the EC2 instance using Terraform:
+
+🚀 Step-by-Step Terraform Setup for EC2
+✅ Step 1: Install Terraform
+Download and install Terraform:
+
+sudo apt update
+sudo apt install unzip -y
+wget https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip
+unzip terraform_1.6.6_linux_amd64.zip
+sudo mv terraform /usr/local/bin/
+Verify installation:
+
+terraform -v
+✅ Step 2: Install & Configure AWS CLI
+Install AWS CLI:
+
+sudo apt install awscli -y
+Configure credentials:
+
+aws configure
+Enter:
+
+AWS Access Key
+
+AWS Secret Key
+
+Region: ap-south-1
+
+Output format: json
+
+✅ Step 3: Create Project Directory
+mkdir terraform-ec2
+cd terraform-ec2
+✅ Step 4: Create Terraform Configuration File
+Create file:
+
+nano main.tf
+Paste this:
+
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = "ap-south-1"
+}
+
+resource "aws_instance" "example_server" {
+  ami           = "ami-00bb6a80f"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "ExampleAppServerInstance"
+  }
+}
+Save and exit.
+
+✅ Step 5: Initialize Terraform
+terraform init
+👉 Downloads AWS provider plugins.
+
+✅ Step 6: Validate Configuration
+terraform validate
+👉 Ensures no syntax errors.
+
+✅ Step 7: Preview Execution Plan
+terraform plan
+👉 Shows what Terraform will create.
+
+✅ Step 8: Apply Configuration
+terraform apply
+Type:
+
+yes
+👉 EC2 instance will be created.
+
+✅ Step 9: Verify Instance
+Go to Amazon Web Services console
+
+Navigate to EC2 → Instances
+
+You’ll see:
+
+Instance Type: t2.micro
+
+Name: ExampleAppServerInstance
+
+Region: ap-south-1
+
+✅ Step 10: (Optional) Destroy Resources
+terraform destroy
+👉 Deletes the instance to avoid charges.
+
+🎯 Final Result
+EC2 instance successfully created in Mumbai region
+
+Uses specified AMI and instance type
+
+Properly tagged
+
+Managed using Terraform
+
+If you want, I can turn this into a perfect 10-mark exam answer (short + structured) 👍
+
+
+AWS Access Key
+AWS Secret Key
+Region: ap-south-1
+Output format: json 
+
+These are the values you enter when running the AWS CLI configuration command:
+
+aws configure
+Then provide inputs like this:
+
+AWS Access Key ID: <your-access-key>
+AWS Secret Access Key: <your-secret-key>
+Default region name: ap-south-1
+Default output format: json
+✅ What each means
+AWS Access Key ID → Your public credential from Amazon Web Services IAM
+
+AWS Secret Access Key → Your private credential (keep it secure ⚠️)
+
+Region → ap-south-1 (Mumbai region)
+
+Output format → json (standard format for CLI output)
+
+⚠️ Important (Exam + Real Use)
+Never share your secret key
+
+If you don’t have keys:
+
+Go to AWS Console → IAM → Users → Security Credentials → Create Access Key
+
+🎯 Final Result
+After entering these values, your system is authenticated with AWS, and Terraform can create resources like EC2 instances successfully.
+
+If you want, I can show how to create access keys step-by-step (GUI method) 👍
+
+
+Write a Terraform configuration file to create an AWS EC2 instance in the "ap-south1" region. The instance should use the following specifications:
+ AMI ID: ami-00bb6a80f (Ubuntu image lts)
+ Instance Type: t2.micro
+ The instance should be tagged with Name = ExampleAppServerInstance.
+ Ensure the correct AWS provider and version constraints are configured.
+ Once the configuration is complete:
+1. Initialize Terraform in the directory containing the file.
+2. Validate the configuration.
+3. Plan the changes Terraform will apply.
+4. Apply the configuration to create the instance.
+Instructions:
+ Provide all Terraform CLI commands used in steps 1–4.
+ Verify the instance is created in your AWS Management Console.
+
+Here’s a complete, exam-ready answer with configuration + all required commands:
+
+✅ Terraform Configuration File (main.tf)
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = "ap-south-1"
+}
+
+resource "aws_instance" "example_server" {
+  ami           = "ami-00bb6a80f"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "ExampleAppServerInstance"
+  }
+}
+🚀 Terraform CLI Commands
+✅ 1. Initialize Terraform
+terraform init
+👉 Downloads AWS provider and initializes the working directory.
+
+✅ 2. Validate Configuration
+terraform validate
+👉 Checks syntax and configuration correctness.
+
+✅ 3. Plan Execution
+terraform plan
+👉 Shows what resources will be created.
+
+✅ 4. Apply Configuration
+terraform apply
+👉 Type yes when prompted to create the EC2 instance.
+
+🔍 Verification Step
+Open Amazon Web Services Console
+
+Go to EC2 Dashboard → Instances
+
+Confirm:
+
+Instance Name: ExampleAppServerInstance
+
+Instance Type: t2.micro
+
+Region: ap-south-1
+
+🎯 Final Outcome
+EC2 instance successfully created using Terraform
+
+Proper provider version constraint applied
+
+Instance configured with required AMI, type, and tag
+
+If you want, I can also give a short 5-mark version or viva questions 👍
+
+
+give step bys step
+
+Here’s a simple step-by-step guide you can directly write in your exam 👇
+
+🚀 Step-by-Step Terraform EC2 Setup
+✅ Step 1: Create Project Folder
+mkdir terraform-ec2
+cd terraform-ec2
+✅ Step 2: Create Configuration File
+Create a file named main.tf:
+
+nano main.tf
+Add the following code:
+
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = "ap-south-1"
+}
+
+resource "aws_instance" "example_server" {
+  ami           = "ami-00bb6a80f"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "ExampleAppServerInstance"
+  }
+}
+Save and exit.
+
+✅ Step 3: Configure AWS Credentials
+Run:
+
+aws configure
+Enter:
+
+AWS Access Key
+
+AWS Secret Key
+
+Region: ap-south-1
+
+Output: json
+
+✅ Step 4: Initialize Terraform
+terraform init
+👉 Initializes working directory and installs provider.
+
+✅ Step 5: Validate Configuration
+terraform validate
+👉 Ensures configuration is correct.
+
+✅ Step 6: Plan the Changes
+terraform plan
+👉 Shows what Terraform will create.
+
+✅ Step 7: Apply Configuration
+terraform apply
+Type:
+
+yes
+👉 EC2 instance gets created.
+
+✅ Step 8: Verify Instance
+Open Amazon Web Services Console
+
+Go to EC2 → Instances
+
+Check:
+
+Name: ExampleAppServerInstance
+
+Type: t2.micro
+
+Region: ap-south-1
+
+🎯 Final Result
+The EC2 instance is successfully created in the Mumbai region using Terraform and is visible in the AWS console.
+
+If you want, I can also give a super-short revision version (for last-minute study) 👍
+
+
+You are tasked with creating an AWS EC2 instance using Terraform. The configuration
+includes the use of a variables.tf file to dynamically assign the Name tag for the EC2
+instance.
+Tasks: Update the main.tf file to use the variable defined in variables.tf for the Name
+tag of the instance.
+ Replace the hardcoded Name tag in main.tf with the variable instance_name.
+
+Here’s the correct way to update your Terraform configuration using variables 👇
+
+✅ Step 1: Create variables.tf
+variable "instance_name" {
+  description = "Name of the EC2 instance"
+  type        = string
+  default     = "ExampleAppServerInstance"
+}
+✅ Step 2: Update main.tf
+Replace the hardcoded tag with the variable:
+
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = "ap-south-1"
+}
+
+resource "aws_instance" "example_server" {
+  ami           = "ami-00bb6a80f"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = var.instance_name
+  }
+}
+✅ Key Change (Important for Exam)
+❌ Before:
+
+Name = "ExampleAppServerInstance"
+✅ After:
+
+Name = var.instance_name
+🎯 Final Result
+EC2 instance name is now dynamic
+
+Value is taken from variables.tf
+
+Can be easily changed without editing main.tf
+
+If you want, I can also show how to override the variable using CLI or terraform.tfvars 👍
+
+
+step by step answer only
+
+Here is a step-by-step answer only 👇
+
+✅ Step 1: Create Project Directory
+mkdir terraform-ec2
+cd terraform-ec2
+✅ Step 2: Create variables.tf
+nano variables.tf
+Add:
+
+variable "instance_name" {
+  description = "Name of the EC2 instance"
+  type        = string
+  default     = "ExampleAppServerInstance"
+}
+✅ Step 3: Create / Update main.tf
+nano main.tf
+Add:
+
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = "ap-south-1"
+}
+
+resource "aws_instance" "example_server" {
+  ami           = "ami-00bb6a80f"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = var.instance_name
+  }
+}
+✅ Step 4: Configure AWS
+aws configure
+✅ Step 5: Initialize Terraform
+terraform init
+✅ Step 6: Validate
+terraform validate
+✅ Step 7: Plan
+terraform plan
+✅ Step 8: Apply
+terraform apply
+Type yes
+
+✅ Step 9: Verify
+Check EC2 instance in AWS Console → Name will be ExampleAppServerInstance
+
+🎯 Final Result
+The EC2 instance is created with the Name tag using a variable instead of a hardcoded value.
+
+
+You are working with a Terraform configuration to create an AWS EC2 instance. The
+configuration includes an outputs.tf file to display key details about the created
+instance.
+Tasks:
+i. Add the following output values in outputs.tf to display:
+ The ID of the created EC2 instance.
+ The Public IP address of the EC2 instance.
+ii. Verify the outputs after applying the Terraform configuration
+
+Here is a step-by-step answer only 👇
+
+✅ Step 1: Create outputs.tf
+nano outputs.tf
+Add the following:
+
+output "instance_id" {
+  description = "ID of the EC2 instance"
+  value       = aws_instance.example_server.id
+}
+
+output "public_ip" {
+  description = "Public IP of the EC2 instance"
+  value       = aws_instance.example_server.public_ip
+}
+✅ Step 2: Apply Terraform Configuration
+terraform apply
+Type yes
+
+✅ Step 3: Verify Outputs
+After apply, Terraform will display:
+
+instance_id = "i-xxxxxxxxxxxx"
+public_ip   = "xx.xx.xx.xx"
+🎯 Final Result
+EC2 Instance ID is displayed
+
+Public IP address is displayed
+
+Outputs are successfully configured using outputs.tf
+
+
+You are tasked with deploying a web application on an AWS EC2 instance using
+Terraform. The configuration includes:
+i. Creating a security group to allow inbound SSH and HTTP traffic.
+ii. Launching an EC2 instance with the following specifications:
+ AMI ID: ami-00bb6a80f (Ubuntu image lts)
+ Instance Type: t2.micro
+ Security group association for SSH and HTTP traffic.
+ Key Pair: Use mykey for SSH access.
+ Attach a root block device with a 10 GiB SSD.
+iii. Using a user data script to:
+ Install required software (apache2, wget, unzip, vim).
+ Download, extract, and deploy the "Mini Finance" template from
+https://www.tooplate.com/zip-templates/2135_mini_finance.zip.
+ Serve the application via Apache.
+Tasks:
+i. 
+i. Explain the purpose of the security group in this configuration.
+ii. Write the steps required to initialize, plan, and apply the Terraform
+configuration.
+iii. After applying the configuration: 
+
+
+
+ Verify that the instance is running in the AWS Management
+Console.
+ Access the web application using the instance's public IP
+address in a browser. 
+
+
+Here is a step-by-step exam answer 👇
+
+✅ i. Purpose of Security Group
+A security group in Amazon Web Services acts as a virtual firewall for the EC2 instance.
+
+Allows SSH (port 22) → to connect to the instance remotely
+
+Allows HTTP (port 80) → to access the web application in a browser
+
+Controls inbound and outbound traffic for security
+
+✅ ii. Terraform Steps (Initialize, Plan, Apply)
+🔹 Step 1: Initialize Terraform
+terraform init
+👉 Downloads required provider plugins
+
+🔹 Step 2: Validate (optional but recommended)
+terraform validate
+🔹 Step 3: Plan the Execution
+terraform plan
+👉 Shows resources to be created (EC2, security group)
+
+🔹 Step 4: Apply Configuration
+terraform apply
+Type:
+
+yes
+👉 Creates EC2 instance and deploys web app
+
+✅ iii. After Applying Configuration
+🔹 Step 1: Verify Instance
+Open Amazon Web Services Console
+
+Go to EC2 → Instances
+
+Check:
+
+Instance state → Running
+
+Instance type → t2.micro
+
+🔹 Step 2: Access Web Application
+Copy the Public IP address of the instance
+
+Open browser and enter:
+
+http://<public-ip>
+👉 The Mini Finance web application will load successfully
+
+🎯 Final Result
+Security group allows SSH & HTTP access
+
+EC2 instance is created and running
+
+Web application is deployed automatically using user data
+
+Application is accessible via public IP in browser
+
+If you want, I can also give the full Terraform code for this setup 👍
+
+
+2) Branching, Merging, and Diffs Workflow
+a) Refer to Figure 0.1 where:
+ C0 (commit): Indicates the addition of an h1 tag in 'README.md'.
+ C1 (commit): Creation of a new txt file.
+ C2 (commit): Modification in the txt file.
+Push the changes made above to the remote repository of the origin main
+branch. ) Refer to Figure 0.2 where:
+ iss53 (issue53): “iss53” is the name of a branch. C3 (commit): Denotes the creation of the “index.html” file and updating
+“readme.md” in the “iss53” branch.
+To discern the differences between commits C1 and C2, as well as to compare
+the “main” branch with “iss53”, utilize the “git diff' command”. Push the
+changes made on the 'iss53' branch to the remote repository. 
+c) Refer to Figure 0.3 where:
+ hotfix: 'hotfix' is the name of a branch.
+ C4 (commit): Denotes the update of the 'new txt file' in the 'hotfix'
+branch.
+Additionally, push the changes made on the 'hotfix' branch to the remote
+repositord) Merge the 'hotfix' branch into the 'main' branch and delete the 'hotfix' branch, as
+shown in Figure 0e) Merge the 'iss53' branch into the 'main' branch and delete the 'iss53' branch. 
+detailed step by step
+
+Here is a detailed step-by-step workflow for branching, merging, diffs, and pushing 👇
+
+✅ a) Commits C0, C1, C2 and Push to main
+🔹 Step 1: Initialize Repo (if not already)
+git init
+git remote add origin <repo-url>
+🔹 Step 2: C0 – Add h1 tag in README.md
+echo "# My Project" > README.md
+git add README.md
+git commit -m "C0: Added h1 tag in README.md"
+🔹 Step 3: C1 – Create new txt file
+echo "This is a new file" > file.txt
+git add file.txt
+git commit -m "C1: Created new txt file"
+🔹 Step 4: C2 – Modify txt file
+echo "Updated content" >> file.txt
+git add file.txt
+git commit -m "C2: Modified txt file"
+🔹 Step 5: Push to main branch
+git branch -M main
+git push -u origin main
+✅ b) Create iss53 branch, commit C3, diff & push
+🔹 Step 6: Create and switch to iss53 branch
+git checkout -b iss53
+🔹 Step 7: C3 – Create index.html & update README.md
+touch index.html
+echo "<h1>Welcome</h1>" > index.html
+echo "Update in iss53" >> README.md
+
+git add .
+git commit -m "C3: Added index.html and updated README.md"
+🔹 Step 8: View Differences
+Compare C1 and C2:
+git diff HEAD~1 HEAD
+Compare main and iss53:
+git diff main iss53
+🔹 Step 9: Push iss53 branch
+git push -u origin iss53
+✅ c) Create hotfix branch, commit C4, push
+🔹 Step 10: Switch to main
+git checkout main
+🔹 Step 11: Create hotfix branch
+git checkout -b hotfix
+🔹 Step 12: C4 – Update txt file
+echo "Hotfix update" >> file.txt
+git add file.txt
+git commit -m "C4: Updated txt file in hotfix"
+🔹 Step 13: Push hotfix branch
+git push -u origin hotfix
+✅ d) Merge hotfix into main and delete branch
+🔹 Step 14: Switch to main
+git checkout main
+🔹 Step 15: Merge hotfix
+git merge hotfix
+🔹 Step 16: Delete hotfix branch
+git branch -d hotfix
+git push origin --delete hotfix
+✅ e) Merge iss53 into main and delete branch
+🔹 Step 17: Merge iss53
+git merge iss53
+🔹 Step 18: Delete iss53 branch
+git branch -d iss53
+git push origin --delete iss53
+🎯 Final Result
+All commits (C0–C4) created
+
+Branches (iss53, hotfix) used correctly
+
+Differences checked using git diff
+
+Branches merged into main
+
+Extra branches deleted locally and remotely
+
+If you want, I can give a diagram explanation (Figure 0.1, 0.2, 0.3 style) which is often asked in viva 👍
+
+
+Git and GitHub Basics Workflow
+A. Clone any public repository on GitHub using the 'git clone' command.
+B. Create a public repository with a 'README.md' file, and subsequently modify
+the 'README.md' file to articulate the purpose of the repository. Finally,
+commit those changes with an appropriate message.
+C. Globally configure your username and email on the local machine, utilize the
+'git config' command.
+D. Pull the 'README.md' file from the previously created public repository
+E. Edit the 'README.md' file and create an 'index.html' file, then add both files to
+the staging area.
+F. Push the changes made to the previously created files to the repository, and use
+the upstream flag to push changes to that repository. 
+
+Here is a step-by-step Git & GitHub workflow 👇
+
+✅ A. Clone any public repository
+git clone https://github.com/<username>/<repository>.git
+cd <repository>
+✅ B. Create a public repository & modify README
+🔹 Step 1: Create repo on GitHub (with README.md)
+🔹 Step 2: Clone your repo
+git clone https://github.com/<your-username>/<your-repo>.git
+cd <your-repo>
+🔹 Step 3: Edit README.md
+nano README.md
+Add content (purpose of repo), then:
+
+git add README.md
+git commit -m "Updated README with repository purpose"
+✅ C. Configure username and email globally
+git config --global user.name "Your Name"
+git config --global user.email "your-email@example.com"
+✅ D. Pull README.md from repository
+git pull origin main
+✅ E. Edit README & create index.html, add to staging
+nano README.md
+Make changes, then:
+
+touch index.html
+Add both files:
+
+git add README.md index.html
+✅ F. Commit and push using upstream flag
+git commit -m "Updated README and added index.html"
+git push -u origin main
+🎯 Final Result
+Repository cloned successfully
+
+README created and updated
+
+Git configured globally
+
+Files edited and staged
+
+Changes pushed to GitHub with upstream tracking enabled
+
+If you want, I can give a short 5-mark exam version 👍
+
+
+Write a shell script that continuously monitors the system uptime and stores the data in a
+TSV (Tab Separated Values) file named “uptime_data.tsv” The script should run
+indefinitely, updating the uptime data every 5 minutes. Ensure that the entries in the file are
+arranged in descending order of timestamp.
+2) Write a TCP socket-based client-server program in Python. The server, hosted on an Amazon
+EC2 instance, should read “uptime_data.tsv”. The client, running on a local machine,
+should be able to fetch the latest uptime information from the server
+
+Here is a clear step-by-step solution for both parts 👇
+
+✅ 1) Shell Script: Monitor Uptime & Store in TSV
+🔹 Step 1: Create Script File
+nano uptime_monitor.sh
+🔹 Step 2: Add Script
+#!/bin/bash
+
+FILE="uptime_data.tsv"
+
+# Create file with header if not exists
+if [ ! -f "$FILE" ]; then
+    echo -e "Timestamp\tUptime" > $FILE
+fi
+
+while true
+do
+    TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
+    UPTIME=$(uptime -p)
+
+    # Add new entry at top (descending order)
+    (echo -e "$TIMESTAMP\t$UPTIME"; tail -n +2 $FILE) > temp.tsv
+    mv temp.tsv $FILE
+
+    sleep 300   # 5 minutes
+done
+🔹 Step 3: Make Executable
+chmod +x uptime_monitor.sh
+🔹 Step 4: Run Script
+./uptime_monitor.sh
+🎯 Output File Example (uptime_data.tsv)
+Timestamp              Uptime
+2026-04-15 10:00:00   up 2 hours
+2026-04-15 09:55:00   up 1 hour 55 minutes
+✅ 2) Python TCP Client-Server Program
+🔹 Server Code (EC2 Instance)
+Create file:
+
+nano server.py
+import socket
+
+HOST = "0.0.0.0"
+PORT = 5000
+
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind((HOST, PORT))
+server.listen(1)
+
+print("Server is running...")
+
+while True:
+    conn, addr = server.accept()
+    print("Connected by", addr)
+
+    try:
+        with open("uptime_data.tsv", "r") as f:
+            lines = f.readlines()
+            latest = lines[1] if len(lines) > 1 else "No data"
+
+        conn.sendall(latest.encode())
+    except Exception as e:
+        conn.sendall(str(e).encode())
+
+    conn.close()
+🔹 Run Server
+python3 server.py
+👉 Make sure port 5000 is open in EC2 security group
+
+🔹 Client Code (Local Machine)
+Create file:
+
+nano client.py
+import socket
+
+SERVER_IP = "<EC2-PUBLIC-IP>"
+PORT = 5000
+
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect((SERVER_IP, PORT))
+
+data = client.recv(1024).decode()
+print("Latest Uptime:", data)
+
+client.close()
+🔹 Run Client
+python3 client.py
+🎯 Final Result
+Shell script logs uptime every 5 minutes in TSV format
+
+Data is stored in descending timestamp order
+
+Server reads latest entry from file
+
+Client fetches and displays latest uptime from EC2 instance
+
+If you want, I can also give viva questions + explanation of socket working 👍
+
+
+3) Write a UDP socket-based client-server program in Python. The server, hosted on an
+Amazon EC2 instance, should read “uptime_data.tsv”. The client, running on a local
+machine, should be able to fetch the latest uptime information from the server.
+4) Write an FTP-based client-server program in Python. Both the server and client will run on
+the local machine. The server should provide access to the uptime_data.tsv file for
+download. The client should be able to fetch the latest uptime information by connecting to
+the server via FTP and downloading the file locall
+
+Here is a step-by-step solution for both questions 👇
+
+✅ 3) UDP Socket Client–Server Program
+🔹 Server Code (Run on EC2)
+nano udp_server.py
+import socket
+
+HOST = "0.0.0.0"
+PORT = 5001
+
+server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+server.bind((HOST, PORT))
+
+print("UDP Server running...")
+
+while True:
+    data, addr = server.recvfrom(1024)
+    print("Request from:", addr)
+
+    try:
+        with open("uptime_data.tsv", "r") as f:
+            lines = f.readlines()
+            latest = lines[1] if len(lines) > 1 else "No data"
+    except:
+        latest = "Error reading file"
+
+    server.sendto(latest.encode(), addr)
+🔹 Run Server
+python3 udp_server.py
+👉 Open port 5001 (UDP) in EC2 security group
+
+🔹 Client Code (Local Machine)
+nano udp_client.py
+import socket
+
+SERVER_IP = "<EC2-PUBLIC-IP>"
+PORT = 5001
+
+client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+client.sendto(b"Request uptime", (SERVER_IP, PORT))
+
+data, _ = client.recvfrom(1024)
+print("Latest Uptime:", data.decode())
+
+client.close()
+🔹 Run Client
+python3 udp_client.py
+🎯 Result (UDP)
+Client sends request
+
+Server reads latest uptime
+
+Server sends response back via UDP
+
+✅ 4) FTP-Based Client–Server Program (Local Machine)
+🔹 Install FTP Library
+pip install pyftpdlib
+🔹 FTP Server Code
+nano ftp_server.py
+from pyftpdlib.authorizers import DummyAuthorizer
+from pyftpdlib.handlers import FTPHandler
+from pyftpdlib.servers import FTPServer
+
+authorizer = DummyAuthorizer()
+
+# username, password, directory, permissions
+authorizer.add_user("user", "12345", ".", perm="elradfmw")
+
+handler = FTPHandler
+handler.authorizer = authorizer
+
+server = FTPServer(("0.0.0.0", 2121), handler)
+
+print("FTP Server running on port 2121...")
+server.serve_forever()
+🔹 Run FTP Server
+python3 ftp_server.py
+🔹 FTP Client Code
+nano ftp_client.py
+from ftplib import FTP
+
+ftp = FTP()
+ftp.connect("127.0.0.1", 2121)
+ftp.login("user", "12345")
+
+filename = "uptime_data.tsv"
+
+with open(filename, "wb") as f:
+    ftp.retrbinary(f"RETR {filename}", f.write)
+
+ftp.quit()
+
+print("File downloaded successfully")
+🔹 Run Client
+python3 ftp_client.py
+🎯 Final Result
+UDP:
+Server sends latest uptime entry
+
+Client receives and displays it
+
+FTP:
+Server hosts uptime_data.tsv
+
+Client downloads file locally
+
+Latest uptime can be viewed from downloaded file
+
+If you want, I can give a short theory + differences between TCP, UDP, FTP (important for viva) 👍
+
+
+5) Write the exact SCP commands needed to accomplish all the below tasks. Ensure that the
+commands handle different scenarios such as compression, preserving permissions, and
+displaying verbose output.
+I. Copy a file named example.txt from the /home/ubuntu directory on the EC2 instance
+to the /local_backup directory on your local machine.
+II. Copy multiple files (file1.txt, file2.txt, file3.txt) from the /home/ubuntu/files
+directory on the EC2 instance to /local_files on your local machine.
+III. Copy the entire /var/www directory from the EC2 instance to a local /web_backup
+directory.
+M.Sc. (CS), 2024-25, Lab Course (MSCOSDSE104)-DevOps-I, Dept. of Comp. Sci., S. P. College, Pune 11
+IV. Transfer a file named report.csv from the /local_reports directory on your local
+machine to the /home/$username/reports directory on the EC2 instance.
+V. Copy multiple files (doc1.pdf, doc2.pdf, doc3.pdf) from the local /documents
+directory to the /home/$username/docs directory on the EC2 instance.
+VI. Transfer the entire /images directory from the local machine to the
+/home/$username/media directory on the EC2 instance.
+VII. Use SCP with compression enabled to transfer a large file from the local machine to
+the EC2 instance.
+VIII. Ensure that file permissions are preserved during the transfer of any directory.
+IX. Use verbose mode to display detailed output of the file transfer process for
+troubleshooting
+
+Here are the exact SCP commands for each task 👇
+
+⚠️ Replace:
+
+<key.pem> → your EC2 key file
+
+<ec2-public-ip> → your EC2 instance IP
+
+<username> → usually ubuntu
+
+✅ I. Copy single file (EC2 → Local)
+scp -i <key.pem> ubuntu@<ec2-public-ip>:/home/ubuntu/example.txt /local_backup/
+✅ II. Copy multiple files (EC2 → Local)
+scp -i <key.pem> ubuntu@<ec2-public-ip>:/home/ubuntu/files/{file1.txt,file2.txt,file3.txt} /local_files/
+✅ III. Copy entire directory (EC2 → Local)
+scp -i <key.pem> -r ubuntu@<ec2-public-ip>:/var/www /web_backup/
+✅ IV. Copy file (Local → EC2)
+scp -i <key.pem> /local_reports/report.csv ubuntu@<ec2-public-ip>:/home/<username>/reports/
+✅ V. Copy multiple files (Local → EC2)
+scp -i <key.pem> /documents/{doc1.pdf,doc2.pdf,doc3.pdf} ubuntu@<ec2-public-ip>:/home/<username>/docs/
+✅ VI. Copy entire directory (Local → EC2)
+scp -i <key.pem> -r /images ubuntu@<ec2-public-ip>:/home/<username>/media/
+✅ VII. Use compression (Local → EC2)
+scp -i <key.pem> -C largefile.zip ubuntu@<ec2-public-ip>:/home/<username>/
+✅ VIII. Preserve permissions (for directory transfer)
+scp -i <key.pem> -rp /images ubuntu@<ec2-public-ip>:/home/<username>/media/
+✅ IX. Use verbose mode
+scp -i <key.pem> -v /local_reports/report.csv ubuntu@<ec2-public-ip>:/home/<username>/reports/
+🎯 Final Result
+Files and directories transferred between local machine and EC2
+
+Compression (-C), recursive (-r), preserve permissions (-p), and verbose (-v) options used correctly
+
+If you want, I can give a 1-page cheat sheet of SCP flags (very useful for exams) 👍
+
+
+Write a script to back up the directory /home/user/data into a folder named /backup with a
+timestamped subdirectory. Ensure your script displays a message upon successful completion
+of the backup.
+Explanation:
+ SOURCE: The directory to be backed up.
+ DESTINATION: The directory where the backup will be stored.
+ DATE: Captures the current date and time to create a unique backup folder.
+ mkdir -p $DESTINATION/$DATE: Creates the backup directory if it does not exist.
+ cp -r $SOURCE $DESTINATION/$DATE: Copies the contents of the source
+directory to the backup directory.
+ echo "Backup completed on $DATE": Outputs a message indicating the completion
+of the backup.
+2) Write a script that checks disk usage for all partitions and warns the user if the usage exceeds
+80%.
+Explanation:
+ THRESHOLD: Sets the disk usage percentage threshold.
+ df -H: Lists disk usage in human-readable format.
+ grep -v '^Filesystem tmpfs|cdrom': Filters out unnecessary lines.
+ awk '{ print $5 " " $1 }': Extracts the usage percentage and partition name.
+ while read output: Iterates over each line of the filtered output.
+ usage=$(echo $output | awk '{print $1}' | cut -d'%' -f1): Extracts the usage percentage.
+ partition=$(echo $output | awk '{print $2}'): Extracts the partition name. if [ $usage -
+ge $THRESHOLD ]; then: Checks if the usage exceeds the threshold. echo "Warning:
+Disk usage on partitionisat{usage}%": Prints a warning message.
+
+Here are both scripts with clear steps and explanation 👇
+
+✅ 1) Backup Script with Timestamp
+🔹 Script (backup.sh)
+#!/bin/bash
+
+SOURCE="/home/user/data"
+DESTINATION="/backup"
+DATE=$(date "+%Y-%m-%d_%H-%M-%S")
+
+# Create destination folder
+mkdir -p $DESTINATION/$DATE
+
+# Copy data
+cp -r $SOURCE $DESTINATION/$DATE
+
+# Success message
+echo "Backup completed on $DATE"
+🔹 Steps to Run
+chmod +x backup.sh
+./backup.sh
+🔹 Explanation
+SOURCE → Directory to back up
+
+DESTINATION → Backup location
+
+DATE → Unique timestamp folder
+
+mkdir -p → Creates directory if not exists
+
+cp -r → Copies entire directory
+
+echo → Displays success message
+
+✅ 2) Disk Usage Monitoring Script
+🔹 Script (disk_check.sh)
+#!/bin/bash
+
+THRESHOLD=80
+
+df -H | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $5 " " $1 }' | while read output;
+do
+    usage=$(echo $output | awk '{print $1}' | cut -d'%' -f1)
+    partition=$(echo $output | awk '{print $2}')
+
+    if [ $usage -ge $THRESHOLD ]; then
+        echo "Warning: Disk usage on $partition is at ${usage}%"
+    fi
+done
+🔹 Steps to Run
+chmod +x disk_check.sh
+./disk_check.sh
+🔹 Explanation
+THRESHOLD → Set to 80%
+
+df -H → Shows disk usage
+
+grep -vE → Filters unnecessary entries
+
+awk → Extracts usage & partition
+
+while read → Iterates through partitions
+
+cut → Removes % symbol
+
+if condition → Checks threshold
+
+echo → Displays warning
+
+🎯 Final Result
+Backup script creates timestamped backup folder
+
+Disk script warns when usage exceeds 80%
+
+If you want, I can give a combined script (backup + disk monitoring) which is sometimes asked in exams 👍
+
+
+1) Write a shell script to display the current date and time, the name of the logged-in user, and
+the name of the shell being used.
+2) Create a shell script to generate a multiplication table (1 to 10) for numbers from 1 to 5 using
+nested loops. Save the output to a file and display the file contents.
+3) Write a script that recursively searches for all .txt files in a directory and its subdirectories.
+For each file, count the number of lines containing the word "error" and append the file name
+and count to a report file.
+4) Develop a script that accepts a hostname or IP address as input and checks its network
+availability using ping. If reachable, append a success message to
+/home/$USERNAME/$filename with a timestamp; otherwise, append a failure message.
+5) Write a script to monitor CPU usage using the top command. The script should run for a
+specified number of iterations and log the CPU usage in each iteration. Use continue to skip
+logging if CPU usage is below 10% and break if CPU usage exceeds 90%.
+6) Write a script that processes a log file to extract and display IP addresses, date-time stamps,
+and error messages using regular expressions. Validate that only properly formatted IP
+addresses are extracted.
+7) Write a shell script that defines a function to check if a number is prime or not. The script
+should prompt the user for a number and call the function to display whether the number is
+prime.
+8) Write a script to monitor the size of a directory. If the directory exceeds a specified size (e.g.,
+500 MB), append a warning message to /home/$USERNAME/$filename. Include the size
+and time of occurrence in the message. 
+
+Here are all 8 shell scripts (clean, exam-ready) 👇
+
+✅ 1) Display Date, User, Shell
+#!/bin/bash
+echo "Date & Time: $(date)"
+echo "User: $(whoami)"
+echo "Shell: $SHELL"
+✅ 2) Multiplication Tables (1–5) → Save to File
+#!/bin/bash
+
+OUTPUT="tables.txt"
+
+> $OUTPUT
+
+for i in {1..5}
+do
+  for j in {1..10}
+  do
+    echo "$i x $j = $((i*j))" >> $OUTPUT
+  done
+  echo "----------------" >> $OUTPUT
+done
+
+cat $OUTPUT
+✅ 3) Search .txt Files & Count “error”
+#!/bin/bash
+
+DIR=$1
+REPORT="report.txt"
+
+> $REPORT
+
+find "$DIR" -type f -name "*.txt" | while read file
+do
+  count=$(grep -i "error" "$file" | wc -l)
+  echo "$file : $count" >> $REPORT
+done
+
+echo "Report generated in $REPORT"
+✅ 4) Ping Host & Log Result
+#!/bin/bash
+
+read -p "Enter hostname/IP: " HOST
+FILENAME="network_log.txt"
+USER_HOME="/home/$USER"
+
+if ping -c 1 $HOST > /dev/null
+then
+  echo "$(date) : $HOST is reachable" >> $USER_HOME/$FILENAME
+else
+  echo "$(date) : $HOST is NOT reachable" >> $USER_HOME/$FILENAME
+fi
+✅ 5) CPU Monitoring Script
+#!/bin/bash
+
+ITERATIONS=5
+COUNT=0
+
+while [ $COUNT -lt $ITERATIONS ]
+do
+  CPU=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}' | cut -d'%' -f1)
+
+  if (( $(echo "$CPU < 10" | bc -l) ))
+  then
+    ((COUNT++))
+    continue
+  fi
+
+  echo "CPU Usage: $CPU%"
+
+  if (( $(echo "$CPU > 90" | bc -l) ))
+  then
+    echo "High CPU usage! Exiting..."
+    break
+  fi
+
+  ((COUNT++))
+  sleep 2
+done
+✅ 6) Extract IP, Date-Time, Error (Regex)
+#!/bin/bash
+
+LOGFILE=$1
+
+grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}.*[0-9]{4}-[0-9]{2}-[0-9]{2}.*error.*' $LOGFILE
+👉 Extracts:
+
+Valid IP format
+
+Date-time
+
+Lines containing “error”
+
+✅ 7) Prime Number Function
+#!/bin/bash
+
+is_prime() {
+  num=$1
+  if [ $num -le 1 ]; then
+    return 1
+  fi
+
+  for ((i=2; i<=num/2; i++))
+  do
+    if [ $((num%i)) -eq 0 ]; then
+      return 1
+    fi
+  done
+  return 0
+}
+
+read -p "Enter number: " n
+
+if is_prime $n
+then
+  echo "$n is Prime"
+else
+  echo "$n is Not Prime"
+fi
+✅ 8) Directory Size Monitor
+#!/bin/bash
+
+DIR=$1
+LIMIT=500   # in MB
+FILENAME="dir_size_log.txt"
+USER_HOME="/home/$USER"
+
+SIZE=$(du -sm "$DIR" | cut -f1)
+
+if [ $SIZE -gt $LIMIT ]
+then
+  echo "$(date) : WARNING - $DIR size is ${SIZE}MB" >> $USER_HOME/$FILENAME
+fi
+🎯 Final Result
+Covers loops, conditions, functions, regex, file handling
+
+Fully exam-ready scripts
+
+Can be directly written in answer sheet
